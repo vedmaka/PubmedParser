@@ -104,7 +104,7 @@ class Core
 	 * @return String containing a Wiki template with parametrized Pubmed data.
 	 * @note Article is given as a parameter to facilitate unit testing.
 	 */
-	function buildTemplate( Article $article ) {
+	function buildTemplate_old( Article $article ) {
 		return '{{' . $this->template . '|'
 			. 'pmid=' . $article->pmid
 			. '|' . Extension::$authors     . '=' . $article->authors()
@@ -124,6 +124,25 @@ class Core
 			. '|' . Extension::$abstract    . '=' . $article->abstract
 			. '|' . Extension::$title       . '=' . $article->title
 			. '}}';
+	}
+
+	function buildTemplate( Article $article ) {
+		return '{{#vardefine:pmid|' . $article->pmid . '}}'
+			. '{{#vardefine:authors|' . $article->authors() . '}}'
+			. '{{#vardefine:authorsI|' . $article->authors( true ) . '}}'
+			. '{{#vardefine:allAuthors|' . $article->allAuthors() . '}}'
+			. '{{#vardefine:allAuthorsI|' . $article->allAuthors( true ) . '}}'
+			. '{{#vardefine:journal|' . $article->journal . '}}'
+			. '{{#vardefine:journalCaps|' . $article->journalCaps() . '}}'
+			. '{{#vardefine:journalA|' . $article->journalAbbrev . '}}'
+			. '{{#vardefine:year|' . $article->year . '}}'
+			. '{{#vardefine:volume|' . $article->volume . '}}'
+			. '{{#vardefine:pages|' . $article->pages . '}}'
+			. '{{#vardefine:firstPage|' . $article->firstPage() . '}}'
+			. '{{#vardefine:doi|' . $article->doi . '}}'
+			. '{{#vardefine:pmc|' . $article->pmc . '}}'
+			. '{{#vardefine:abstract|' . $article->abstract . '}}'
+			. '{{#vardefine:title|' . $article->title . '}}';
 	}
 
 	/** Retrieves article data for PMID from PubMed.
